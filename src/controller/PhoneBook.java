@@ -41,12 +41,19 @@ public class PhoneBook extends Phone implements IPhone {
 
     @Override
     public void insertPhone() {
-        Contact contact = new Contact();
         System.out.println("Enter name: ");
-        contact.setName(scanner.nextLine());
+        String name = scanner.nextLine();
         System.out.println("Enter phone number: ");
-        contact.setPhoneNumber(scanner.nextLine());
-        phoneBook.add(contact);
+        String phone = scanner.nextLine();
+        for (Contact contacts : phoneBook){
+            if (contacts.getName().equals(name)){
+                contacts.setPhoneNumber(phone);
+                System.out.println("updated");
+                ReadWriteFile.writeFile(phoneBook);
+                return;
+            }
+        }
+        phoneBook.add(new Contact(name,phone));
         System.out.println("Has added success");
         ReadWriteFile.writeFile(phoneBook);
     }
@@ -102,7 +109,7 @@ public class PhoneBook extends Phone implements IPhone {
     @Override
     public void sort() {
         phoneBook = ReadWriteFile.readFile();
-        phoneBook.sort(Comparator.comparing(contact -> contact.getName()));
+        phoneBook.sort(Comparator.comparing(Contact::getName));
         ReadWriteFile.writeFile(phoneBook);
     }
 }

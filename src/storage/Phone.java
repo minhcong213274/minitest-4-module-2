@@ -1,6 +1,5 @@
 package storage;
 
-import model.Contact;
 
 
 public abstract class Phone {
